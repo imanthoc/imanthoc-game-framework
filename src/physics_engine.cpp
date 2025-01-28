@@ -50,8 +50,6 @@ void Physics_Engine::update(const std::vector<std::string>& msgs)
         else if (can_move_to(0, 1, bb))
         {
             components[i]->force_move(0, 1);
-
-            forces[i] = 0;
         }
         else
         {

@@ -17,9 +17,9 @@ int main()
     game_scene.emplace_component<igf::Tilemap_Component>("assets/assets.png", "assets/desc.bin", 16); 
     game_scene.emplace_component<igf::Static_Component>("assets/box.png", 0.0f, 0.0f);
     
-    game_scene.emplace_component<igf::Static_Component>("assets/box.png", 30.0f, 30.0f); 
+    game_scene.emplace_component<igf::Static_Component>("assets/box.png", 60.0f, 30.0f); 
     
-    game_scene.emplace_component<igf::Animated_Component>("assets/character_right.png", "assets/m.lua", 4, 5, 50.0f, 30.0f);
+    game_scene.emplace_component<igf::Animated_Component>("assets/m.lua", 100.0f, 30.0f);
 
     while (window.is_open())
     {

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <SFML/Graphics.hpp>
 #include <sol/sol.hpp>
+#include <map>
 
 #include "physics_engine.h"
 #include "component.h"
@@ -14,9 +15,18 @@
 namespace igf
 {
 
+struct Animation_Info
+{
+    std::string spritesheet_file;
+    int frame_count;
+    int anim_speed;
+};
+
 class Animated_Component: public Component
 {
 private:
+    std::string current_animation_tag;
+    std::map<std::string, Animation_Info> animations_table;
     std::optional<std::reference_wrapper<Physics_Engine>> physics_engine;
     sol::state L;
     sol::function update_pointer;
@@ -31,13 +41,15 @@ private:
     int tick;
     bool mirror;
     bool hittable;
+private:
+    void reset_spritesheet(const Animation_Info& info); 
 public:
-    Animated_Component(std::string spritesheet_file, int frame_count, int anim_speed, float x, float y, bool hittable = true);
-    
-    Animated_Component(std::string spritesheet_file, std::string script_file, int frame_count, int anim_speed, float x, float y, bool hittable = true);
+    Animated_Component(float x, float y, bool hittable = true);
+    Animated_Component(std::string script_file, float x, float y, bool hittable = true);
 
-    
     void attach_physics_engine(Physics_Engine& pe) { physics_engine = pe; }
+    void set_active_animation(std::string tag);
+    void add_animation(std::string tag, std::string spritesheet_file, int frame_count, int anim_speed);
 
     // component api overrides
     void update(const std::vector<std::string>& msgs)   override;

@@ -73,19 +73,28 @@ void Static_Component::attach_script(std::string file)
     
     try
     {
-        L.script_file(file);    
+        L.script_file(file);
     }
     catch (const sol::error& e)
     {
         std::cout << "LUA error, " << e.what() << '\n';
         throw std::exception();
     }
+
     update_pointer = L["update"];
 
     if (!update_pointer)
     {
-        std::runtime_error("LUA error, no update function provided");
+        throw std::runtime_error("LUA error, no update function provided");
     }
+
+    auto ready_pointer = L["ready"];
+
+    if (!ready_pointer)
+    {
+        throw std::runtime_error("LUA error, no ready function provided");
+    }
+    ready_pointer();
 }
 
 void Static_Component::jump()
